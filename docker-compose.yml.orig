@@ -5,14 +5,13 @@ services:
     image: mysql
     command: --default-authentication-plugin=mysql_native_password
     container_name: avideo_db
-    hostname: avideo_db
     #tty: true
     ports:
       - 3306
     environment:
-      - MYSQL_USER=avideo
-      - MYSQL_PASSWORD=avideo
-      - MYSQL_ROOT_PASSWORD=avideo
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=avideo
       - TZ=UTC
     expose:
@@ -33,10 +32,8 @@ services:
     expose:
       - 80
       - 443
-    ports:
-      - "80:80" 
-    volumes:
-      - .:/var/www/avideo:rw
+    #volumes:
+    #  - .:/var/www/avideo:rw
     networks:
       - app_net
 
