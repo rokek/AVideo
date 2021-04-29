@@ -40,6 +40,23 @@ services:
     networks:
       - app_net
 
+  encoder:
+    depends_on:
+       - db
+    hostname: avideo_encoder
+    build: ../AVideo-Encoder/
+    environment:
+      - DEBIAN_FRONTEND=noninteractive
+      - TZ=UTC
+    expose:
+      - 8000
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/var/www/avideo:rw
+    networks:
+      - app_net
+
 #Docker Networks
 networks:
   app_net:

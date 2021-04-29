@@ -1,0 +1,36 @@
+#
+# systemd unit file for avideo
+#
+# This file configures a systemd unit that destroys, cleans,
+# and creates the avideo Docker Compose project.
+#
+# Reload the installed file after making any changes to it with
+# this command:
+#
+#   sudo systemctl daemon-reload
+#
+
+[Unit]
+Description=avideo
+After=docker.service asterisk.service
+BindsTo=docker.service
+ReloadPropagatedFrom=docker.service
+
+[Service]
+ExecStart=/opt/avideo/AVideo/set-host-ip.sh
+ExecStart=/usr/local/bin/docker-compose down -t 0
+ExecStart=/bin/docker system prune --volumes --force
+ExecStart=/usr/local/bin/docker-compose up -d
+ExecReload=/usr/local/bin/docker-compose down -t 0
+ExecReload=/bin/docker system prune --volumes --force
+ExecReload=/usr/local/bin/docker-compose up -d
+ExecStop=/usr/local/bin/docker-compose down -t 0
+ExecStop=/bin/docker system prune --volumes --force
+RemainAfterExit=yes
+Type=oneshot
+User=root
+Group=root
+WorkingDirectory=/opt/avideo/AVideo
+
+[Install]
+WantedBy=multi-user.target
